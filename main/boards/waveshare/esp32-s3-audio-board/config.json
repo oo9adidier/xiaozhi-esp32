@@ -22,7 +22,6 @@
       "sdkconfig_append": [
         "CONFIG_AUDIO_BOARD_LCD_GC9A01=y",
         "CONFIG_USE_WECHAT_MESSAGE_STYLE=y",
-        "CONFIG_LANGUAGE_NL_NL=y",
         "CONFIG_USE_CUSTOM_WAKE_WORD=y",
         "CONFIG_CUSTOM_WAKE_WORD=\"hey kira\"",
         "CONFIG_CUSTOM_WAKE_WORD_DISPLAY=\"Hey Kira\"",
