@@ -817,6 +817,8 @@ choice DISPLAY_ESP32S3_AUDIO_BOARD
         bool "JD9853 320*172"
     config AUDIO_BOARD_LCD_ST7789
         bool "ST7789 240*320"
+    config AUDIO_BOARD_LCD_GC9A01
+        bool "GC9A01 240*240 Circle"
 endchoice
 
 choice DISPLAY_ESP32S3_TOUCH_LCD_1_85C
@@ -1122,13 +1124,3 @@ menu "TAIJIPAI_S3_CONFIG"
 endmenu
 
 endmenu
-
-
-config AUDIO_BOARD_LCD_GC9A01
-    bool "Enable GC9A01 round LCD on Waveshare Audio Board (e.g. 1.28in touch LCD)"
-    depends on BOARD_TYPE_WAVESHARE_ESP32_S3_AUDIO_BOARD
-    default n
-    help
-        Enable this if a GC9A01-based round touch LCD (such as the
-        Waveshare 1.28inch Touch LCD) is wired to the Audio Board's
-        SPI screen header instead of the stock JD9853/ST7789 panel.
