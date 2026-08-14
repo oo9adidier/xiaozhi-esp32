@@ -92,4 +92,18 @@
 
 
 
+#ifdef CONFIG_AUDIO_BOARD_LCD_GC9A01
+#define LCD_TYPE_GC9A01_SERIAL
+#define DISPLAY_WIDTH 240
+#define DISPLAY_HEIGHT 240
+
+#define DISPLAY_SWAP_XY false
+#define DISPLAY_MIRROR_X true
+#define DISPLAY_MIRROR_Y false
+#define DISPLAY_INVERT_COLOR true
+#define BACKLIGHT_INVERT false
+#define DISPLAY_OFFSET_X 0
+#define DISPLAY_OFFSET_Y 0
+#endif
+
 #endif // _BOARD_CONFIG_H_
