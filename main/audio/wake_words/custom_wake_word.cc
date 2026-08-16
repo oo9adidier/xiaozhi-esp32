@@ -159,6 +159,10 @@ void CustomWakeWord::FeedMono(const int16_t* data, size_t samples) {
 }
 
 void CustomWakeWord::FeedSamples(const int16_t* data, size_t samples, bool mono) {
+    static int feed_debug_counter = 0;
+    if (++feed_debug_counter % 50 == 1) {
+        ESP_LOGI(TAG, "FeedDebug: called #%d, samples=%d, running=%d, model_null=%d", feed_debug_counter, (int)samples, (int)running_, multinet_model_data_ == nullptr ? 1 : 0);
+    }
     if (multinet_model_data_ == nullptr || data == nullptr || samples == 0) {
         return;
     }
@@ -166,6 +170,7 @@ void CustomWakeWord::FeedSamples(const int16_t* data, size_t samples, bool mono)
     std::lock_guard<std::mutex> lock(input_buffer_mutex_);
     // Check running state inside lock to avoid TOCTOU race with Stop()
     if (!running_) {
+        ESP_LOGI(TAG, "FeedDebug: not running, dropping samples");
         return;
     }
 
@@ -185,6 +190,10 @@ void CustomWakeWord::FeedSamples(const int16_t* data, size_t samples, bool mono)
 #endif
 
         esp_mn_state_t mn_state = multinet_->detect(multinet_model_data_, input_buffer_.data());
+        static int detect_debug_counter = 0;
+        if (++detect_debug_counter % 20 == 1) {
+            ESP_LOGI(TAG, "DetectDebug: mn_state=%d", (int)mn_state);
+        }
         
         if (mn_state == ESP_MN_STATE_DETECTED) {
             esp_mn_results_t *mn_result = multinet_->get_results(multinet_model_data_);
