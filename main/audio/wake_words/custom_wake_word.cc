@@ -160,8 +160,17 @@ void CustomWakeWord::FeedMono(const int16_t* data, size_t samples) {
 
 void CustomWakeWord::FeedSamples(const int16_t* data, size_t samples, bool mono) {
     static int feed_debug_counter = 0;
+    static int16_t feed_peak_amplitude = 0;
+    if (data != nullptr) {
+        for (size_t i = 0; i < samples; i++) {
+            int16_t v = data[i];
+            if (v < 0) v = -v;
+            if (v > feed_peak_amplitude) feed_peak_amplitude = v;
+        }
+    }
     if (++feed_debug_counter % 50 == 1) {
-        ESP_LOGI(TAG, "FeedDebug: called #%d, samples=%d, running=%d, model_null=%d", feed_debug_counter, (int)samples, (int)running_, multinet_model_data_ == nullptr ? 1 : 0);
+        ESP_LOGI(TAG, "FeedDebug: called #%d, samples=%d, running=%d, model_null=%d, peak_amp=%d", feed_debug_counter, (int)samples, (int)running_, multinet_model_data_ == nullptr ? 1 : 0, (int)feed_peak_amplitude);
+        feed_peak_amplitude = 0;
     }
     if (multinet_model_data_ == nullptr || data == nullptr || samples == 0) {
         return;
